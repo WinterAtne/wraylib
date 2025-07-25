@@ -50,9 +50,9 @@ if(NOT TARGET uninstall AND PROJECT_IS_TOP_LEVEL)
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 endif()
 
-if (${BUILD_EXAMPLES})
-  MESSAGE(STATUS "Building examples is enabled")
-  add_subdirectory(examples)
-endif()
-
 enable_testing()
+
+if (EMSCRIPTEN)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s ASYNCIFY -s GL_ENABLE_GET_PROC_ADDRESS=1")
+    set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
+endif ()
